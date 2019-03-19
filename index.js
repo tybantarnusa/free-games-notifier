@@ -29,31 +29,29 @@ app.post('/callback', line.middleware(config), (req, res) => {
     });
 });
 
-app.post('/notify', (req, res) => {
-    const echo = { type: 'text', text: 
-        'notify'
-    };
-    return client.pushMessage('U8c525e435278d45fb1537c0d2b38f62fg', echo)
-    .then((result) => res.send("Successfully notified!"))
-    .catch((err) => {
-        console.error(err);
-        res.status(500).end();
-    });
+app.get('/notify', (req, res) => {
+    notifier.notify(client, null);
+    res.send('Notifier attempted!');
 });
 
 // event handler
 function handleEvent(event) {
     console.log(event);
 
-    if (event.type == 'join') {
-        return member.register(event.source);
+    // if (event.type == 'join') {
+    //     return member.register(event.source);
+    // }
+
+    // else if (event.type == 'leave') {
+    //     return member.unregister(event.source);
+    // }
+
+    if (event.message.text == '/check') {
+        notifier.notify(client, null);
+        return Promise.resolve(null);
     }
 
-    else if (event.type == 'leave') {
-        return member.unregister(event.source);
-    }
-
-    else if (event.message.text == 'debug') {
+    if (event.message.text == 'debug') {
         return client.replyMessage(event.replyToken, {type: 'text', text: JSON.stringify(event)});
     }
 
