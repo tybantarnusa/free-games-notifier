@@ -41,9 +41,15 @@ app.get('/notify', line.middleware(config), (req, res) => {
 
 // event handler
 function handleEvent(event) {
+    console.log(event);
+
   if (event.type !== 'message' || event.message.type !== 'text') {
     // ignore non-text-message event
     return Promise.resolve(null);
+  }
+
+  if (event.message.text == 'debug') {
+      return client.replyMessage(event.replyToken, {type: 'text', text: JSON.stringify(event)});
   }
 
   notifier.notify(client, event);
