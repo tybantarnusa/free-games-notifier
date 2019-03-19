@@ -10,15 +10,14 @@ const config = {
   channelSecret: process.env.CHANNEL_SECRET,
 };
 
-// create LINE SDK client
 const client = new line.Client(config);
-
-// create Express app
-// about Express itself: https://expressjs.com/
 const app = express();
 
+app.get('/', function(req, res){
+    res.send("Free Games Notifier v2.0 server");
+});
+
 // register a webhook handler with middleware
-// about the middleware, please refer to doc
 app.post('/callback', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
