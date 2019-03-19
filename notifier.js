@@ -2,8 +2,8 @@ const axios = require('axios');
 const API = 'https://www.reddit.com/r/GameDeals/.json';
 var subscriber = [
     'U8c525e435278d45fb1537c0d2b38f62f',
-    // 'Cb42efcb9445faba01fc20f5b2f8feaa0'
-    'C43205f63c928a2d64e48b50349635933'
+    'Cb42efcb9445faba01fc20f5b2f8feaa0'
+    // 'C43205f63c928a2d64e48b50349635933'
 ];
 
 var notifier = {};
