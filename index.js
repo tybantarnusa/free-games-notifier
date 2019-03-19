@@ -29,6 +29,16 @@ app.post('/callback', line.middleware(config), (req, res) => {
     });
 });
 
+app.get('/notify', line.middleware(config), (req, res) => {
+    Promise
+        .all(req.body.events.map(notify))
+        .then((result) => res.json(result))
+        .catch((err) => {
+            console.error(err);
+            res.status(500).end();
+        });
+});
+
 // event handler
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
@@ -37,6 +47,10 @@ function handleEvent(event) {
   }
 
   notifier.notify(client, event);
+}
+
+function notify(event) {
+    notifier.notify(client, event);
 }
 
 // listen on port
