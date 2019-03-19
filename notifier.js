@@ -29,12 +29,10 @@ notifier.notify = function(client, event) {
             }
         });
 
-        if (games.length == 0) {
-            return;
-        }
-
         var text = "";
-        if (games.length == 1) {
+        if (games.length == 0) {
+            text += "There is not any free games right now.";
+        } else if (games.length == 1) {
             text += "There is maybe a FREE GAME right now!";
         } else {
             text += "There is maybe " + games.length + " FREE GAMES right now!";
@@ -49,7 +47,7 @@ notifier.notify = function(client, event) {
             text
         };
 
-        if (event == null) {
+        if (event == null && games.length > 0) {
             subscriber.forEach(sub => {
                 client.pushMessage(sub, message)
                 .catch((err) => {
