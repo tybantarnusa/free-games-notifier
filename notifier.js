@@ -2,7 +2,8 @@ const axios = require('axios');
 const API = 'https://www.reddit.com/r/GameDeals/.json';
 var subscriber = [
     'U8c525e435278d45fb1537c0d2b38f62f',
-    'Cb42efcb9445faba01fc20f5b2f8feaa0'
+    // 'Cb42efcb9445faba01fc20f5b2f8feaa0'
+    'C43205f63c928a2d64e48b50349635933'
 ];
 
 var notifier = {};
@@ -48,12 +49,26 @@ notifier.notify = function(client, event) {
             text
         };
 
-        subscriber.forEach(sub => {
-            client.pushMessage(sub, message)
-            .catch((err) => {
-                console.error(err);
+        if (event == null) {
+            subscriber.forEach(sub => {
+                client.pushMessage(sub, message)
+                .catch((err) => {
+                    console.error(err);
+                });
             });
-        });
+        } else {
+            if (event.source.groupId) {
+                client.pushMessage(event.source.groupId, message)
+                .catch((err) => {
+                    console.error(err);
+                });
+            } else if (event.source.userId) {
+                client.pushMessage(event.source.userId, message)
+                .catch((err) => {
+                    console.error(err);
+                });
+            }
+        }
     })
     .catch(error => {
         console.log(error);

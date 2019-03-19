@@ -47,7 +47,7 @@ function handleEvent(event) {
     // }
 
     if (event.message.text == '/check') {
-        notifier.notify(client, null);
+        notifier.notify(client, event);
         return Promise.resolve(null);
     }
 
