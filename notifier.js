@@ -9,7 +9,6 @@ var subscriber = [
 var notifier = {};
 
 notifier.notify = function(client, event) {
-    console.log("DEBUG: Notifying...");
     axios.get(API)
     .then(result => {
         data = result.data.data.children.slice(0, 20);
