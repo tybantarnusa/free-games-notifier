@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tybantarnusa/free-games-notifier#readme",
   "dependencies": {
+    "@line/bot-sdk": "^6.6.0",
     "express": "^4.16.4"
   }
 }
