@@ -43,16 +43,21 @@ app.get('/notify', line.middleware(config), (req, res) => {
 function handleEvent(event) {
     console.log(event);
 
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    // ignore non-text-message event
-    return Promise.resolve(null);
-  }
+    if (event.type == 'join') {
+        return member.register(event.source);
+    }
 
-  if (event.message.text == 'debug') {
-      return client.replyMessage(event.replyToken, {type: 'text', text: JSON.stringify(event)});
-  }
+    else if (event.type == 'leave') {
+        return member.unregister(event.source);
+    }
 
-  notifier.notify(client, event);
+    else if (event.message.text == 'debug') {
+        return client.replyMessage(event.replyToken, {type: 'text', text: JSON.stringify(event)});
+    }
+
+    else {
+        return Promise.resolve(null);
+    }
 }
 
 function notify(event) {
