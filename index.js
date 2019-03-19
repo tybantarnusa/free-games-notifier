@@ -29,14 +29,16 @@ app.post('/callback', line.middleware(config), (req, res) => {
     });
 });
 
-app.get('/notify', line.middleware(config), (req, res) => {
-    Promise
-        .all(req.body.events.map(notify))
-        .then((result) => res.json(result))
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+app.post('/notify', (req, res) => {
+    const echo = { type: 'text', text: 
+        'notify'
+    };
+    return client.pushMessage('U8c525e435278d45fb1537c0d2b38f62fg', echo)
+    .then((result) => res.send("Successfully notified!"))
+    .catch((err) => {
+        console.error(err);
+        res.status(500).end();
+    });
 });
 
 // event handler
@@ -58,10 +60,6 @@ function handleEvent(event) {
     else {
         return Promise.resolve(null);
     }
-}
-
-function notify(event) {
-    notifier.notify(client, event);
 }
 
 // listen on port
