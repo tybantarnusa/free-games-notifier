@@ -12,6 +12,7 @@ const config = {
 
 const client = new line.Client(config);
 const app = express();
+const notifier = require('./notifier')
 
 app.get('/', function(req, res){
     res.send("Free Games Notifier v2.0 server");
@@ -35,11 +36,7 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  // create a echoing text message
-  const echo = { type: 'text', text: event.message.text };
-
-  // use reply API
-  return client.replyMessage(event.replyToken, echo);
+  notifier.notify(client, event);
 }
 
 // listen on port
