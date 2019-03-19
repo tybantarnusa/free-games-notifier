@@ -38,12 +38,12 @@ app.get('/notify', (req, res) => {
 function handleEvent(event) {
     console.log(event);
 
-    // if (event.type == 'join') {
-    //     return member.register(event.source);
-    // }
+    if (event.type == 'join') {
+        return subscriber.register(event.source);
+    }
 
     // else if (event.type == 'leave') {
-    //     return member.unregister(event.source);
+    //     return subscriber.unregister(event.source);
     // }
 
     if (event.message.text == '/check') {
