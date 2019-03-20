@@ -28,7 +28,7 @@ notifier.notify = function(client, event) {
 
         var text = "";
         if (games.length == 0) {
-            text += "There is not any free games right now.";
+            text += "There are no free games right now.";
         } else if (games.length == 1) {
             text += "There is maybe a FREE GAME right now!";
         } else {
