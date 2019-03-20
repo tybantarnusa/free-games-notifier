@@ -10,6 +10,7 @@ subscriber.db = new Client({
     port: process.env.DB_PORT,
     ssl: true
 });
+subscriber.db.connect();
 
 // QUERIES //
 const GET_ALL_QUERY = "SELECT * FROM subscribers";
@@ -20,17 +21,14 @@ const REMOVE_SUB = "DELETE FROM subscribers WHERE lineid = $1";
 /////////////
 
 subscriber.subscribe = function(id) {
-    subscriber.db.connect();
     return subscriber.db.query(NEW_SUB, [id]);
 }
 
 subscriber.unsubscribe = function(id) {
-    subscriber.db.connect();
     return subscriber.db.query(REMOVE_SUB, [id]);
 }
 
 subscriber.getAll = function() {
-    subscriber.db.connect();
     return subscriber.db.query(GET_ALL_QUERY);
 }
 

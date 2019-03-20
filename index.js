@@ -63,9 +63,6 @@ function handleEvent(event) {
 
   if (event.type == 'join') {
     return subscriber.subscribe(event.source.groupId)
-    .then(res => {
-      subscriber.db.end();
-    })
     .catch(err => {
       return Promise.resolve(null);
     });
@@ -73,9 +70,6 @@ function handleEvent(event) {
 
   else if (event.type == 'leave') {
     return subscriber.unsubscribe(event.source.groupId)
-    .then(res => {
-      subscriber.db.end();
-    })
     .catch(err => {
       return Promise.resolve(null);
     });
