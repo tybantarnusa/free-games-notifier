@@ -39,6 +39,7 @@ app.get('/subs', (req, res) => {
   console.log("test");
   subscriber.getAll()
   .then(result => {
+    result = result.rows;
     res.json(result);
   })
   .catch(err => {
