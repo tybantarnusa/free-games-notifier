@@ -12,10 +12,11 @@ const config = {
 
 const client = new line.Client(config);
 const app = express();
-const notifier = require('./notifier')
+const notifier = require('./notifier');
+const subscriber = require('./subscriber');
 
-app.get('/', function(req, res){
-    res.send("Free Games Notifier v2.0 server");
+app.get('/', function (req, res) {
+  res.send("Free Games Notifier v2.0 server");
 });
 
 // register a webhook handler with middleware
@@ -30,34 +31,59 @@ app.post('/callback', line.middleware(config), (req, res) => {
 });
 
 app.get('/notify', (req, res) => {
-    notifier.notify(client, null);
-    res.send('Notifier attempted!');
+  notifier.notify(client, null);
+  res.send('Notifier attempted!');
+});
+
+app.get('/subs', (req, res) => {
+  console.log("test");
+  subscriber.getAll()
+  .then(result => {
+    res.json(result);
+  })
+  .catch(err => {
+    res.json(err);
+  });
+});
+
+app.get('/subscribe', (req, res) => {
+  console.log("subscribe");
+  subscriber.subscribe('C43205f63c928a2d64e48b50349635933')
+  .then(result => {
+    res.send('Success!');
+  })
+  .catch(err => {
+    res.send(err);
+  })
 });
 
 // event handler
 function handleEvent(event) {
-    console.log(event);
+  console.log(event);
 
-    if (event.type == 'join') {
-        return subscriber.register(event.source);
-    }
+  if (event.type == 'join') {
+    return subscriber.subscribe(event.source.groupId)
+    .catch(err => {
+      return Promise.resolve(null);
+    });
+  }
 
-    // else if (event.type == 'leave') {
-    //     return subscriber.unregister(event.source);
-    // }
+  // else if (event.type == 'leave') {
+  //     return subscriber.unregister(event.source);
+  // }
 
-    if (event.message.text == '/check') {
-        notifier.notify(client, event);
-        return Promise.resolve(null);
-    }
+  if (event.message.text == '/check') {
+    notifier.notify(client, event);
+    return Promise.resolve(null);
+  }
 
-    if (event.message.text == 'debug') {
-        return client.replyMessage(event.replyToken, {type: 'text', text: JSON.stringify(event)});
-    }
+  if (event.message.text == 'debug') {
+    return client.replyMessage(event.replyToken, { type: 'text', text: JSON.stringify(event) });
+  }
 
-    else {
-        return Promise.resolve(null);
-    }
+  else {
+    return Promise.resolve(null);
+  }
 }
 
 // listen on port
