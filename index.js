@@ -60,8 +60,6 @@ app.get('/subscribe', (req, res) => {
 
 // event handler
 function handleEvent(event) {
-  console.log(event);
-
   if (event.type == 'join') {
     return subscriber.subscribe(event.source.groupId)
     .catch(err => {
@@ -79,10 +77,6 @@ function handleEvent(event) {
   if (event.message.text == '/check') {
     notifier.notify(client, event);
     return Promise.resolve(null);
-  }
-
-  if (event.message.text == 'debug') {
-    return client.replyMessage(event.replyToken, { type: 'text', text: JSON.stringify(event) });
   }
 
   else {
