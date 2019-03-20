@@ -63,14 +63,23 @@ function handleEvent(event) {
 
   if (event.type == 'join') {
     return subscriber.subscribe(event.source.groupId)
+    .then(res => {
+      subscriber.db.end();
+    })
     .catch(err => {
       return Promise.resolve(null);
     });
   }
 
-  // else if (event.type == 'leave') {
-  //     return subscriber.unregister(event.source);
-  // }
+  else if (event.type == 'leave') {
+    return subscriber.unsubscribe(event.source.groupId)
+    .then(res => {
+      subscriber.db.end();
+    })
+    .catch(err => {
+      return Promise.resolve(null);
+    });
+  }
 
   if (event.message.text == '/check') {
     notifier.notify(client, event);

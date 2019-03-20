@@ -15,12 +15,18 @@ subscriber.db = new Client({
 const GET_ALL_QUERY = "SELECT * FROM subscribers";
 
 const NEW_SUB = "INSERT INTO subscribers(lineid) VALUES($1)";
+
+const REMOVE_SUB = "DELETE FROM subscribers WHERE lineid = $1";
 /////////////
 
 subscriber.subscribe = function(id) {
-    console.log("DEBUG: Subscribing attempt.")
     subscriber.db.connect();
     return subscriber.db.query(NEW_SUB, [id]);
+}
+
+subscriber.unsubscribe = function(id) {
+    subscriber.db.connect();
+    return subscriber.db.query(REMOVE_SUB, [id]);
 }
 
 subscriber.getAll = function() {
