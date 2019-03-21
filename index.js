@@ -35,29 +35,6 @@ app.get('/notify', (req, res) => {
   res.send('Notifier attempted!');
 });
 
-app.get('/subs', (req, res) => {
-  console.log("test");
-  subscriber.getAll()
-  .then(result => {
-    result = result.rows;
-    res.json(result);
-  })
-  .catch(err => {
-    res.json(err);
-  });
-});
-
-app.get('/subscribe', (req, res) => {
-  console.log("subscribe");
-  subscriber.subscribe('C43205f63c928a2d64e48b50349635933')
-  .then(result => {
-    res.send('Success!');
-  })
-  .catch(err => {
-    res.send(err);
-  })
-});
-
 // event handler
 function handleEvent(event) {
   if (event.type == 'join') {
@@ -74,7 +51,7 @@ function handleEvent(event) {
     });
   }
 
-  if (event.message.text == '/check') {
+  else if (event.message.text == '/check') {
     notifier.notify(client, event);
     return Promise.resolve(null);
   }
