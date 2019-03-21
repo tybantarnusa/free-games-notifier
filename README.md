@@ -6,3 +6,9 @@ Update dependency using:
 ```{bash}
 npm install
 ```
+Database table:
+
+*Table name: subscribers*
+
+id | idline
+--- | ---
