@@ -12,3 +12,6 @@ Database table:
 
 id | idline
 --- | ---
+
+## Contributing
+Fork, make a new branch, code, pull request
