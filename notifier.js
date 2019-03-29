@@ -17,12 +17,14 @@ notifier.notify = function(client, event) {
 
             var t = title.toLowerCase();
             if (t.includes('100% off') || t.includes(' (100%') ||  t.includes('(free') ) {
-                games.push(
-                    {
-                        title: title,
-                        url: game.data.url
-                    }
-                );
+                if (!t.includes('twitch prime')) {
+                    games.push(
+                        {
+                            title: title,
+                            url: game.data.url
+                        }
+                    );
+                }
             }
         });
 
