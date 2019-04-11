@@ -35,6 +35,8 @@ app.get('/notify', (req, res) => {
   if (secret == process.env.NOTIFY_SECRET) {
     notifier.notify(client, null);
     res.send('Notifier attempted!');
+  } else {
+    res.send('ERROR: Unauthorized notify attempt.');
   }
 });
 
