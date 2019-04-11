@@ -31,8 +31,11 @@ app.post('/callback', line.middleware(config), (req, res) => {
 });
 
 app.get('/notify', (req, res) => {
-  notifier.notify(client, null);
-  res.send('Notifier attempted!');
+  var secret = req.query.secret;
+  if (secret == process.env.NOTIFY_SECRET) {
+    notifier.notify(client, null);
+    res.send('Notifier attempted!');
+  }
 });
 
 // event handler
