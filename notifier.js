@@ -1,6 +1,7 @@
 const axios = require('axios');
 const API = 'https://www.reddit.com/r/GameDeals/.json';
 const subscriber = require('./subscriber');
+const discord = require('./discord-webhook');
 
 var subscribers = [];
 
@@ -46,6 +47,10 @@ notifier.notify = function(client, event) {
             text
         };
 
+        if (games.length > 0) {
+            discord.send(message.text);
+        }
+
         if (event == null && games.length > 0) {
             subscriber.getAll()
             .then(result => {
@@ -60,7 +65,6 @@ notifier.notify = function(client, event) {
             .catch(err => {
                 console.log(err);
             });
-
             
         } else {
             if (event.source.groupId) {
