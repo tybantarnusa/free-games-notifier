@@ -47,11 +47,8 @@ notifier.notify = function(client, event) {
             text
         };
 
-        if (games.length > 0) {
-            discord.send(message.text);
-        }
-
         if (event == null && games.length > 0) {
+            discord.send(message.text);
             subscriber.getAll()
             .then(result => {
                 subscribers = result.rows;
