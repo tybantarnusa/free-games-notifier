@@ -18,7 +18,7 @@ notifier.notify = function(client, event) {
 
             var t = title.toLowerCase();
             if (t.includes('100% off') || t.includes(' (100%') ||  t.includes('(free') ) {
-                if (!t.includes('twitch prime')) {
+                if (!t.includes('twitch prime') && !t.includes('indiegala') && !t.includes('itch.io')) {
                     games.push(
                         {
                             title: title,
